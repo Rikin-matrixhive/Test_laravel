@@ -45,7 +45,18 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function setGenderAttribute($value){
-        
+
+    public function setGenderAttribute($value)
+    {
+       
+        if($value = "M"){
+            $this->attributes['gender'] = $value="Male";
+
+        }
+        else{
+            $this->attributes['gender'] = $value="Female";
+        }
     }
+
+   
 }

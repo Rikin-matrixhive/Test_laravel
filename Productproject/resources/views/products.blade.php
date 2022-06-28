@@ -7,8 +7,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 </head>
-<body>
+<body onload="resetSelection()">
     @extends('layouts.app')
 
     @section('content')
@@ -30,10 +31,10 @@
           </div>
           <div class="form-group">
                 <label for="state">Category</label>
-                <select class="form-control" id="category" name="category" onclick="demofun()">
-                <option value="">Select Category</option> 
+                <select class="form-control" id="category" name="category" onchange="makeSubmenu(this.value)">
+                <option value="" disabled selected  >Select Category</option> 
                 @foreach ($categories as $item)
-                <option value="{{$item->name}}">{{$item->name}}</option>
+                <option value="{{$item->id}}">{{$item->name}}</option>
                 @endforeach
                 </select>
                 @if ($errors->has('category'))
@@ -43,10 +44,12 @@
           <div class="form-group">
                 <label for="city">Subcategory</label>
                 <select class="form-control" id="subcategory" name="subcategory" aria-placeholder="enter " >
-                <option value="">Select Subcategory</option>
+                <option value="" disabled selected>Select Subcategory</option>
                 @foreach ($subcategories as $item)
-                <option value="{{$item->name}}">{{$item->name}}</option>
+                <option value="{{$item->id}}">{{$item->name}}</option>
+
                 @endforeach
+
                 </select>
                 @if ($errors->has('subcategory'))
                 <span class="text-danger">{{ $errors->first('subcategory') }}</span>
@@ -109,23 +112,32 @@
 
 
     // for 0 to out of stocks
-function demofun(){
-  var select = document.getElementById('category');
-  
-var text = select.options[select.selectedIndex].value;
-if(text == "Eletronics")
-{
-  document.getElementById('subcategory').value = "Mobiles";
-}
-else if(text='Vehicles')
-{
-  document.getElementById('subcategory').value = "Cars";
-}
 
-}
+    
 
+    function makeSubmenu(value) {
+            if (value.length == 0) document.getElementById("categorySelect").innerHTML = "<option></option>";
+            else {
+              
+            }
+        }
 
-
+        $(document).ready(function () {
+          $("#category").change(function(){
+            let cid = jQuery(this).val();
+            alert(cid);
+          })
+          $.ajax({
+            type: "post",
+            url: "/store",
+            data: 'cid'+cid+'_token={{csrf_token()}}',
+            success: function (response) {
+              $("#subcategory").html(response);       
+              
+            }
+          });
+        });
+       
 </script>
 </body>
 </html>

@@ -40,7 +40,13 @@ class RegisterController extends Controller
     {
         $this->middleware('guest');
     }
-
+    protected function redirectTo()
+    {
+        // if (auth()->user()->role == 'admin') {
+        //     return '/products';
+        // }
+        return '/products';
+    }
     /**
      * Get a validator for an incoming registration request.
      *
@@ -76,6 +82,11 @@ class RegisterController extends Controller
             'dob' => $data['dob'],
             'gender' => $data['gender'],
             'password' => Hash::make($data['password']),
+
+           
         ]);
+
+      dd($data['gender']);
+
     }
 }

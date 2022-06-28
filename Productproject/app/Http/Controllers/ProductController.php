@@ -43,6 +43,8 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $cid=$request->post('cid');
+        echo $cid;
         $validatedData = $request->validate(
             [
                 'pname' => 'required|regex:/^[a-zA-Z]+$/u|',
