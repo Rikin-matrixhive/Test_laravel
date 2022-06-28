@@ -47,7 +47,7 @@ class ProductController extends Controller
         echo $cid;
         $validatedData = $request->validate(
             [
-                'pname' => 'required|regex:/^[a-zA-Z]+$/u|',
+                'pname' => 'required|string',
                 'category' => 'required',
                 'subcategory' => 'required',
                 'price' => 'required|regex:/^\d*(\.\d{2})?$/',
