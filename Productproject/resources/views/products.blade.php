@@ -33,9 +33,10 @@
                 <label for="state">Category</label>
                 <select class="form-control" id="category" name="category" onchange="makeSubmenu(this.value)">
                 <option value="" disabled selected  >Select Category</option> 
-                @foreach ($categories as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
+
+                <option value="Vehicle">Vehicle</option>
+                <option value="Vehicle">Eletronic</option>
+
                 </select>
                 @if ($errors->has('category'))
                 <span class="text-danger">{{ $errors->first('category') }}</span>
@@ -45,10 +46,8 @@
                 <label for="city">Subcategory</label>
                 <select class="form-control" id="subcategory" name="subcategory" aria-placeholder="enter " >
                 <option value="" disabled selected>Select Subcategory</option>
-                @foreach ($subcategories as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
-
-                @endforeach
+                <option value="Car">Car</option>
+                <option value="Mobile">Mobile</option>
 
                 </select>
                 @if ($errors->has('subcategory'))
