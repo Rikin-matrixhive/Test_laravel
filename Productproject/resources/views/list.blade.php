@@ -54,8 +54,11 @@
         <td>{{ $item->price }}</td>
         <td>{{ $item->desc }}</td>
         <td>{{ $item->status }}</td>
-        <td>{{ $item->quantity }}</td>
-        
+        @if($item->quantity == 0)
+        <td id="qty" class="text-danger">out of stock</td>
+        @else
+          <td>{{ $item->quantity }}</td>
+        @endif
        <td> <a href="{{ url('update/'.$item->id) }}" class="btn btn-primary ">update</a>
         <a href="{{ url('delete/'.$item->id) }}" class="btn btn-danger" onclick="return confirm('Are you sure you want to delete this product')">Delete </a>
           </td>
@@ -71,6 +74,9 @@
     $(document).ready( function () {
     $('#myTable').DataTable();
 } );
+
+
+
   </script>
   @endsection
 

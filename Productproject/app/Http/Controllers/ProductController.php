@@ -17,6 +17,7 @@ class ProductController extends Controller
      */
     public function index()
     {
+
         $categories = DB::table('categories')->get();
         $subcategories = DB::table('subcategories')->get();
 
@@ -42,6 +43,37 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        $validatedData = $request->validate(
+            [
+                'pname' => 'required|regex:/^[a-zA-Z]+$/u|',
+                'category' => 'required',
+                'subcategory' => 'required',
+                'price' => 'required|regex:/^\d*(\.\d{2})?$/',
+                'pic' => 'required|file|mimes:jpeg,jpg,png|max:5000',
+                'desc' => 'required',
+                'status' => 'required',
+                'quantity' =>  'required|integer',
+
+
+            ],
+
+            [
+                'pname.required' => 'Enter product name',
+                'pname.regex' => 'Product only accept charecters',
+                'pname.max' => 'Add less filed than 20',
+                'category.required' => 'Select Category',
+                'subcategory.required' => 'Select Sub Category',
+                'price.required' => 'Enter Price',
+                'price.regex' => 'Enter only numbers',
+                'pic.required' => 'Upload product image',
+                'desc.required' => 'Enter some decription about product',
+                'status.required' => 'Select Status',
+                'quantity.required' => 'Enter Quantity of product',
+
+
+            ]
+        );
+
         $input = new Product();
         $input->pname = $request->input('pname');
         $input->category = $request->input('category');
@@ -58,8 +90,7 @@ class ProductController extends Controller
         $input->status = $request->input('status');
         $input->quantity = $request->input('quantity');
         $input->save();
-        return redirect('list')->with('message','Data Added Successfully');
-
+        return redirect('list')->with('message', 'Data Added Successfully');
     }
 
     /**
@@ -71,8 +102,7 @@ class ProductController extends Controller
     public function show()
     {
         $productdata = Product::all();
-        return view('list',['productdata'=>$productdata]);
-
+        return view('list', ['productdata' => $productdata]);
     }
 
     /**
@@ -86,7 +116,7 @@ class ProductController extends Controller
         $editdata = Product::find($id);
         $categories = DB::table('categories')->get();
         $subcategories = DB::table('subcategories')->get();
-        return view('update', ['updatedata'=> $editdata,'categories'=>$categories,'subcategories'=>$subcategories]);    
+        return view('update', ['updatedata' => $editdata, 'categories' => $categories, 'subcategories' => $subcategories]);
     }
 
     /**
@@ -114,9 +144,7 @@ class ProductController extends Controller
         $update->status = $request->input('status');
         $update->quantity = $request->input('quantity');
         $update->update();
-        return redirect('list')->with('message','Data Updated!!');
-
-
+        return redirect('list')->with('message', 'Data Updated!!');
     }
 
     /**
@@ -129,9 +157,7 @@ class ProductController extends Controller
     {
         $deletedata = Product::find($id);
         $deletedata->delete();
-        return redirect('list')->with('message','Data Deleted!!');
-
-
+        return redirect('list')->with('message', 'Data Deleted!!');
     }
 
     // for getting category in select tag
@@ -153,6 +179,6 @@ class ProductController extends Controller
 
         if (count($subcategory) > 0) {
             return response()->json($subcategory);
-        }   
+        }
     }
 }

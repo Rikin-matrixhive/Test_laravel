@@ -56,7 +56,9 @@ class RegisterController extends Controller
             'dob' => ['required'],
             'gender' => ['required'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
-        ]);
+        
+            
+        ])  ;
     }
 
     /**
